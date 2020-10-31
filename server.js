@@ -46,29 +46,41 @@ app.post('/searches', (req, res) => {
   }
   else if (authorOrTitle === 'author') {
     urlAuthOrTitle = `inauthor:${search}`;
-  } else {
-    urlAuthOrTitle = search;
   }
+  // Originally had a 3rd search option we removed this for the lab.
+  // else {
+  //   urlAuthOrTitle = search;
+  // }
 
-  const URL = `https://www.googleapis.com/books/v1/volumes?q=${search}+${urlAuthOrTitle}`;
+  const URL = `https://www.googleapis.com/books/v1/volumes?q=${urlAuthOrTitle}`;
 
+  console.log(URL);
   superagent.get(URL)
     .then(data => {
-      console.log(data.body.items[1].volumeInfo);
+      let bookInfo = data.body.items.map(book => {
+        let imageLink = '';
+        if (book.volumeInfo.imageLinks) {
+          imageLink = book.volumeInfo.imageLinks.thumbnail;
+        } else {
+          imageLink = 'https://i.imgur.com/J5LVHEL.jpg';
+        }
+        return new Book(book, imageLink);
+      });
+      res.status(200).render('pages/searches/show', {bookInfo});
+    })
+    .catch((error) => {
+      console.log('error', error);
+      res.status(500).send('pages/error');
     });
-
-  res.status(200).render('pages/index');
 });
 
-
-// Constructors!
-
-// function AuthorOrTitleHandler(obj) {
-//   this.
-// }
-
-
-
+// Constructor!
+function Book(obj, pic) {
+  this.bookTitle = obj.volumeInfo.title;
+  this.bookAuthor = obj.volumeInfo.authors[0];
+  this.description = obj.volumeInfo.description;
+  this.bookPic = pic;
+}
 
 // Starting the server
 app.listen(PORT, () => console.log(`now listening on port ${PORT}`));
