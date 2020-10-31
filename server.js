@@ -22,7 +22,8 @@ app.use(cors());
 
 // Starting our EJS stuff here
 app.use(express.static('./public'));
-// app.use(express.urlencoded({ extended: true }));
+// Allows us to get the secure POST info.
+app.use(express.urlencoded({ extended: true }));
 
 // Set default view engine
 app.set('view engine', 'ejs');
@@ -33,6 +34,41 @@ app.get('/', (request, response) => {
   //console.log('/ route is working!');
   response.status(200).render('pages/index');
 });
+
+app.post('/searches', (req, res) => {
+  console.log(req.body);
+  const search = req.body.search;
+  const authorOrTitle = req.body.authorOrTitle;
+  let urlAuthOrTitle = '';
+
+  if (authorOrTitle === 'title') {
+    urlAuthOrTitle = `intitle:${search}`;
+  }
+  else if (authorOrTitle === 'author') {
+    urlAuthOrTitle = `inauthor:${search}`;
+  } else {
+    urlAuthOrTitle = search;
+  }
+
+  const URL = `https://www.googleapis.com/books/v1/volumes?q=${search}+${urlAuthOrTitle}`;
+
+  superagent.get(URL)
+    .then(data => {
+      console.log(data.body.items[1].volumeInfo);
+    });
+
+  res.status(200).render('pages/index');
+});
+
+
+// Constructors!
+
+// function AuthorOrTitleHandler(obj) {
+//   this.
+// }
+
+
+
 
 // Starting the server
 app.listen(PORT, () => console.log(`now listening on port ${PORT}`));
