@@ -1,0 +1,19 @@
+body {
+  width: 480px;
+  margin: auto;
+}
+
+@media all and (min-width: 480px) {
+  body {
+    width: 768px;
+    margin: auto;
+  }
+}
+
+@media all and (min-width: 768px) {
+  body {
+    width: 960px;
+    margin: auto;
+  }
+}
+
