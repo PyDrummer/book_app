@@ -1,0 +1,52 @@
+.container {
+  display: grid;
+  grid-template: 75px 150px 125px 125px 250px 250px 80px / 240px 240px;
+}
+
+header {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  position: relative;
+  background-color: #0F5257;
+}
+
+div {
+  
+  width: 20px;
+  height: 3px;
+  background-color: black;
+  margin: 3px 0;
+}
+
+h1 {
+  font-size: 30px;
+  
+}
+
+@media only screen and (min-width: 480px) {
+  .container {
+    display: grid;
+    grid-template: 130px 180px 200px 200px 100px / 192px 192px 192px 192px;
+  }
+
+  header {
+    grid-column: 1 / span 4;
+    grid-row: 1;
+    position: relative;
+    background-color: #0F5257;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .container {
+    display: grid;
+    grid-template: 100px 200px 250px 150px / 200px 190px 190px 190px 190px;
+  }
+
+  header {
+    grid-column: 1 / span 6;
+    grid-row: 1;
+    position: relative;
+    background-color: #0F5257;
+  }
+}

@@ -1,5 +1,4 @@
-body {
-  width: 1437;
-  height: 3087;
-  background-color: aqua;
-}
+@import "reset.css";
+@import "base.css";
+@import "layout.css";
+@import "theme.css";
