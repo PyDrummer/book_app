@@ -21,7 +21,7 @@ app.use(cors());
 // const client = new pg.Client(process.env.DATABASE_URL);
 
 // Starting our EJS stuff here
-app.use(express.static('./public'));
+app.use(express.static('public'));
 // Allows us to get the secure POST info.
 app.use(express.urlencoded({ extended: true }));
 
@@ -36,7 +36,7 @@ app.get('/', (request, response) => {
 });
 
 app.post('/searches', (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const search = req.body.search;
   const authorOrTitle = req.body.authorOrTitle;
   let urlAuthOrTitle = '';
