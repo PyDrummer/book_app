@@ -10,7 +10,7 @@ const superagent = require('superagent');
 require('dotenv').config(); // used to read a file/environment variables
 
 // Declare our port for our server to listen on
-const PORT = process.env.PORT || 4000; // reads the hidden file .env grabbing the PORT if you see 4000 something is wrong with .env
+const PORT = process.env.PORT || 3000; // reads the hidden file .env grabbing the PORT if you see 3000 something is wrong with .env
 
 // Start/instanciate express
 const app = express();
