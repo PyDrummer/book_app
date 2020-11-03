@@ -7,15 +7,17 @@
   <title>Showing Search</title>
 </head>
 <body>
-  <header>
-    <h1>Best Books!</h1>
-    <div></div>
-    <div></div>
-    <div></div>
-    <a id="hidden" href="/">HOME</a>
-  </header>
+  <main class="container">
+    <header>
+      <section id='bars'>
+        <div></div>
+        <div></div>
+        <div></div>
+      </section>      
+      <a id="hidden" href="/">HOME</a>
+      <h1>Best Books!</h1>
+    </header>
 
-  <main>
     <h2>Search Results</h2>
     <ul>
       <% bookInfo.forEach(book => { %>
