@@ -25,8 +25,6 @@ APP IS FULLY FUNCTIONAL!
 
 ## Credits and Collaborations
 Anthony Beaver and Deanna Johnson
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
--->
 
 
 Number and name of feature: Anthony and Deanna, Lab 11
