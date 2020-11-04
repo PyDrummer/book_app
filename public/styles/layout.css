@@ -212,7 +212,7 @@ h3 {
 @media all and (min-width: 768px) {
   .container {
     display: grid;
-    grid-template: 100px 80px 30px 150px 1000px / 100px 380px 380px 100px;
+    grid-template: 100px 80px 30px 150px 650px / 100px 380px 380px 100px;
     /* background-color: black; */
   }
 
