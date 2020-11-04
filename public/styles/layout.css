@@ -1,6 +1,7 @@
 .container {
   display: grid;
-  grid-template: 130px 80px 30px 100px 100px / 192px 192px 192px 192px;
+  grid-template: 130px 80px 30px 100px 1000px / 96px 288px 288px 96px;
+  background-color: brown;
 }
 
 /* navbar mobile */
@@ -9,6 +10,8 @@ header {
   grid-row: 1;
   position: relative;
   background-color: #0F5257;
+  border: solid 2px black;
+  border-bottom: none;
 }
 
 #bars {
@@ -55,11 +58,16 @@ legend {
   color: white;
   padding-top: 25px;
   font-size: 30px;
+  box-shadow: 0px 2px black;
+  border: solid 2px black;
+  border-bottom: none;
 }
 
 form {
-  grid-column: 2/ span 2;
+  grid-column: 1/ span 4;
   grid-row: 4 / span 3;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 
@@ -128,7 +136,66 @@ button {
   color: white;
 }
 
-@media only screen and (min-width: 480px) {
+/* show page */
+
+ul {
+  grid-column: 2 / span 2;
+  text-align: center;
+  grid-row: 4/ span 10;
+  
+}
+
+h2 {
+  grid-column: 1 / span 4;
+  grid-row: 2;
+  text-align: center;
+  border: solid 2px black;
+  /* margin-top: 30px; */
+  background-color: gray;
+  text-align: center;
+  color: white;
+  padding-top: 25px;
+  font-size: 30px;
+  box-shadow: 0px 2px black;
+  border-bottom: none;
+}
+
+img {
+  height: 300px;
+  padding-top: 30px;
+}
+
+h3 {
+  font-size: 30px;
+  color: white;
+}
+
+.new_book {
+  border: solid 2px black;
+  border-width: 3px;
+  margin-bottom: 30px;
+  background-color: gray;
+  box-shadow: 0px 2px black;
+  border-radius: 5px;
+}
+
+#book_author {
+  font-size: 20px;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+#book_desc {
+  /* margin-top: 20px; */
+  height: 60px;
+  overflow: scroll;
+  font-size: 20px;
+  margin: 20px;
+  margin-bottom: 30px;
+}
+
+
+/* @media only screen and (min-width: 480px) {
   .container {
     display: grid;
     grid-template: 130px 180px 80px 200px 100px / 192px 192px 192px 192px;
@@ -140,12 +207,13 @@ button {
     position: relative;
     background-color: #0F5257;
   }
-}
+} */
 
 @media all and (min-width: 768px) {
   .container {
     display: grid;
-    grid-template: 100px 80px 30px 150px / 192px 192px 192px 192px;
+    grid-template: 100px 80px 30px 150px 100px / 100px 380px 380px 100px;
+    /* background-color: black; */
   }
 
   header {
@@ -157,7 +225,7 @@ button {
   #bars {
     float: right;
     margin-right: 30px;
-    margin-top: 32px;
+    margin-top: 30px;
   }
   
   div {
@@ -200,6 +268,8 @@ button {
   form {
     grid-column: 1/ span 4;
     grid-row: 4 / span 3;
+    margin-left: 10px;
+    margin-right: 10px;
   }
   
   
@@ -265,5 +335,55 @@ button {
     font-size: 30px;
     background-color: black;
     color: white;
+  }
+
+  /* show page */
+  h2 {
+    grid-column: 1 / span 4;
+    grid-row: 2;
+    text-align: center;
+    /* margin-top: 30px; */
+    background-color: gray;
+    text-align: center;
+    color: white;
+    padding-top: 25px;
+    font-size: 30px;
+  }
+
+  ul {
+    grid-column: 2 / span 2;
+    text-align: center;
+    grid-row: 4/ span 10;
+    
+  }
+
+  img {
+    height: 300px;
+    padding-top: 30px;
+  }
+
+  h3 {
+    font-size: 30px;
+    color: white;
+  }
+  
+  .new_book {
+    border: solid 2px black;
+    margin-bottom: 30px;
+    background-color: gray;
+  }
+
+  #book_author {
+    font-size: 25px;
+    margin-top: 10px;
+  }
+
+  #book_desc {
+    /* margin-top: 20px; */
+    height: 60px;
+    margin: 20px;
+    overflow: scroll;
+    overflow: hidden;
+    margin-bottom: 30px;
   }
 }
