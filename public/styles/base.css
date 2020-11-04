@@ -1,14 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=ABeeZee&display=swap');
+
 body {
-  width: 480px;
+  width: 767px;
   margin: auto;
+  font-family: 'ABeeZee', Georgia, serif;
+  background-color: black;
 }
 
-@media all and (min-width: 480px) {
+/* @media all and (min-width: 480px) {
   body {
     width: 768px;
     margin: auto;
   }
-}
+} */
 
 @media all and (min-width: 768px) {
   body {

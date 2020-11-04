@@ -7,22 +7,26 @@
   <title>Showing Search</title>
 </head>
 <body>
-  <header>
-    <h1>Best Books!</h1>
-    <div></div>
-    <div></div>
-    <div></div>
-    <a id="hidden" href="/">HOME</a>
-  </header>
+  <main class="container">
+    <header>
+      <section id='bars'>
+        <div></div>
+        <div></div>
+        <div></div>
+      </section>      
+      <a id="hidden" href="/">HOME</a>
+      <h1>Best Books!</h1>
+    </header>
 
-  <main>
     <h2>Search Results</h2>
     <ul>
       <% bookInfo.forEach(book => { %>
+      <article class="new_book">
       <img src="<%= book.bookPic %>" />
       <h3> <%= book.bookTitle %> </h3>
-      <p> <%= book.bookAuthor %> </p>
-      <p> <%= book.description %> </p> 
+      <p id="book_author"> <%= book.bookAuthor %> </p>
+      <p id="book_desc"> <%= book.description %> </p>
+      </article> 
       <% }) %>
     </ul>
   </main>
