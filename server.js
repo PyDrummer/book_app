@@ -4,7 +4,7 @@
 const express = require('express');
 const cors = require('cors'); //cross origin resource sharing
 const superagent = require('superagent');
-//const pg = require('pg'); // postgreSQL
+const pg = require('pg'); // postgreSQL
 //const { response } = require('express');
 
 require('dotenv').config(); // used to read a file/environment variables
@@ -18,7 +18,7 @@ const app = express();
 app.use(cors());
 
 // This is for later! // creating our postgres client
-// const client = new pg.Client(process.env.DATABASE_URL);
+const client = new pg.Client(process.env.DATABASE_URL);
 
 // Starting our EJS stuff here
 app.use(express.static('public'));
@@ -83,4 +83,15 @@ function Book(obj, pic) {
 }
 
 // Starting the server
-app.listen(PORT, () => console.log(`now listening on port ${PORT}`));
+//app.listen(PORT, () => console.log(`now listening on port ${PORT}`));
+
+// client starting app
+client.connect()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Client now listening on port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.log('Error! ', err);
+  });
