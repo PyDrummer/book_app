@@ -32,7 +32,17 @@ app.set('view engine', 'ejs');
 
 app.get('/', (request, response) => {
   //console.log('/ route is working!');
-  response.status(200).render('pages/index');
+  const SQL = `SELECT * FROM book_info` ;
+
+  client.query(SQL)
+    .then(results => {
+      // console.log(results.rows);
+      let bookData = results.rows;
+      let bookCount = results.rows.length;
+      console.log(bookCount);
+      response.status(200).render('pages/index', {bookData, bookCount});
+    });
+
 });
 
 app.post('/searches', (req, res) => {
@@ -66,7 +76,7 @@ app.post('/searches', (req, res) => {
         }
         return new Book(book, imageLink);
       });
-      res.status(200).render('pages/searches/show', {bookInfo});
+      res.status(200).render('pages/searches/show', { bookInfo });
     })
     .catch((error) => {
       console.log('error', error);
