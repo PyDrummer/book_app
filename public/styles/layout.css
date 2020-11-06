@@ -86,7 +86,7 @@ form {
   color:white;
   text-decoration: none;
   margin-top: 30px;
-  margin-bottom: 130px;
+  margin-bottom: 200px;
   padding: 20px;
 
 }
@@ -98,6 +98,14 @@ form {
   background-color: #00B4D8;
   box-shadow: 0px 2px black;
   border-radius: 5px;
+  height: 550px;
+}
+
+#saved_author {
+  font-size: 20px;
+  font-style: italic;
+  margin-top: 10px;
+  margin-bottom: 50px;
 }
 
 /* search styles */
@@ -222,7 +230,7 @@ h3 {
   overflow: scroll;
   font-size: 20px;
   margin: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 130px;
 }
 
 /* //this is for the error page */
