@@ -45,6 +45,11 @@ app.get('/', (request, response) => {
 
 });
 
+app.get('/search', (request, response) => {
+  response.status(200).render('pages/searches/new');
+
+});
+
 app.post('/searches', (req, res) => {
   //console.log(req.body);
   const search = req.body.search;
@@ -64,7 +69,7 @@ app.post('/searches', (req, res) => {
 
   const URL = `https://www.googleapis.com/books/v1/volumes?q=${urlAuthOrTitle}`;
 
-  console.log(URL);
+  // console.log(URL);
   superagent.get(URL)
     .then(data => {
       let bookInfo = data.body.items.map(book => {
@@ -76,6 +81,7 @@ app.post('/searches', (req, res) => {
         }
         return new Book(book, imageLink);
       });
+      console.log(bookInfo);
       res.status(200).render('pages/searches/show', { bookInfo });
     })
     .catch((error) => {
@@ -89,6 +95,7 @@ function Book(obj, pic) {
   this.bookTitle = obj.volumeInfo.title;
   this.bookAuthor = obj.volumeInfo.authors[0];
   this.description = obj.volumeInfo.description;
+  this.isbn = obj.volumeInfo.industryIdentifiers.type + ' ' + obj.volumeInfo.industryIdentifiers.identifier;
   this.bookPic = pic;
 }
 

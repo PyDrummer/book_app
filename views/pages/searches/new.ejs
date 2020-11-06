@@ -1,16 +1,31 @@
-<legend> Search for an author or book title </legend>
-<form action="/searches" method="POST">
-	<fieldset>
-    <input id='search' type='text' name='search' placeholder="Type Your Search">
-		<br>
-    <label id='title' for="title">Title:
-		<input id='radio' type='radio' name='authorOrTitle' value="title">
-		</label>
-		<br>
-		<label id='author' for="author">Author:
-		<input id='radio2' type='radio' name='authorOrTitle' value="author">
-		</label>
-		<br>
-		<button>Submit</button>
-	</fieldset>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<%- include('../../layout/head') %>
+</head>
+
+<body>
+	<main class="container">
+		<header>
+			<%- include('../../layout/header') %>
+		</header>
+
+		<legend> Search for an author or book title </legend>
+		<form action="/searches" method="POST">
+			<fieldset>
+				<input id='search' type='text' name='search' placeholder="Type Your Search">
+				<br>
+				<label id='title' for="title">Title:
+					<input id='radio' type='radio' name='authorOrTitle' value="title">
+				</label>
+				<br>
+				<label id='author' for="author">Author:
+					<input id='radio2' type='radio' name='authorOrTitle' value="author">
+				</label>
+				<br>
+				<button>Submit</button>
+			</fieldset>
+		</form>
+	</main>
+</body>
