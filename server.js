@@ -45,9 +45,23 @@ app.get('/', (request, response) => {
 
 });
 
+// Takes us to the details page
+app.get('/books/:id', (req, res) => {
+
+  const SQL = `SELECT * FROM book_info WHERE id=$1;`;
+  const params = [req.params.id];
+
+  client.query(SQL, params)
+    .then(results => {
+      console.log('results.rows =', results.rows);
+      let savedDetails = results.rows;
+      res.status(200).render('pages/books/detail', {savedDetails});
+    });
+});
+
+// Takes us to the search page
 app.get('/search', (request, response) => {
   response.status(200).render('pages/searches/new');
-
 });
 
 app.post('/searches', (req, res) => {
@@ -73,15 +87,23 @@ app.post('/searches', (req, res) => {
   superagent.get(URL)
     .then(data => {
       let bookInfo = data.body.items.map(book => {
+        // If there isnt an image, replace it with a placeholder
         let imageLink = '';
         if (book.volumeInfo.imageLinks) {
           imageLink = book.volumeInfo.imageLinks.thumbnail;
         } else {
           imageLink = 'https://i.imgur.com/J5LVHEL.jpg';
         }
-        return new Book(book, imageLink);
+        // If there isnt a category, replace it with "No Category Info"
+        let categories = '';
+        if (book.volumeInfo.categories) {
+          categories = book.volumeInfo.categories;
+        } else {
+          categories = 'No Category Info';
+        }
+        return new Book(book, categories, imageLink);
       });
-      console.log(bookInfo);
+      //console.log(bookInfo);
       res.status(200).render('pages/searches/show', { bookInfo });
     })
     .catch((error) => {
@@ -90,12 +112,29 @@ app.post('/searches', (req, res) => {
     });
 });
 
+// Saving the book to our database
+app.get('/save/:isbn', (req, res) => {
+  console.log('req.body: ', req.query);
+
+  // const SQL = `INSERT INTO book_info (author, title, isbn, image_url, bookshelf, description) VALUES $1, $2, $3, $4, $5, $6;`;
+  // const safeValues = [req.params.isbn];
+
+  // client.query(SQL, params)
+  //   .then(results => {
+  //     console.log('results.rows =', results.rows);
+  //     let savedDetails = results.rows;
+  //     res.status(200).render('pages/books/detail', {savedDetails});
+  //   });
+});
+
+
 // Constructor!
-function Book(obj, pic) {
+function Book(obj, category, pic) {
   this.bookTitle = obj.volumeInfo.title;
   this.bookAuthor = obj.volumeInfo.authors[0];
   this.description = obj.volumeInfo.description;
-  this.isbn = obj.volumeInfo.industryIdentifiers.type + ' ' + obj.volumeInfo.industryIdentifiers.identifier;
+  this.isbn = obj.volumeInfo.industryIdentifiers[0].identifier;
+  this.bookshelf = category;
   this.bookPic = pic;
 }
 

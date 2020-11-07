@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  grid-template: 130px 80px 30px 100px 1000px / 96px 288px 288px 96px;
+  grid-template: 130px 80px 30px 30px 1000px / 96px 288px 288px 96px;
   background-color: #90E0EF;
 }
 
@@ -100,6 +100,7 @@ form {
   border-radius: 5px;
   height: 550px;
 }
+
 
 #saved_author {
   font-size: 20px;
@@ -233,6 +234,33 @@ h3 {
   margin-bottom: 130px;
 }
 
+/* details description */
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+#detail_desc {
+  background-color: #CAF0F8;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 20px;
+  font-size: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 140px;
+  overflow: scroll;
+}
+
+#book_isbn {
+  font-style: italic;
+  margin-top: 20px;
+}
+
+#book_category {
+  font-style: italic; 
+  margin-bottom: 20px; 
+}
 /* //this is for the error page */
 #spelling {
   font-size: 30px;
@@ -259,7 +287,7 @@ h3 {
 @media all and (min-width: 768px) {
   .container {
     display: grid;
-    grid-template: 100px 80px 30px 150px 650px / 100px 380px 380px 100px;
+    grid-template: 100px 80px 30px 30px 650px / 100px 380px 380px 100px;
     /* background-color: black; */
   }
 

@@ -17,6 +17,8 @@
       <h3> <%= book.bookTitle %> </h3>
       <p id="book_author"> <%= book.bookAuthor %> </p>
       <p id="book_desc"> <%= book.description %> </p>
+      <p><%= book.isbn %> </p>
+      <a id="save" href="/save/<%= book.isbn %>">Save Book!</a>
       </article> 
       <% }) %>
     </ul>

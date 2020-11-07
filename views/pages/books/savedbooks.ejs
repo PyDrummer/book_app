@@ -1,14 +1,14 @@
-<h2>Search Results</h2>
+<h2><%= bookCount %> Books Saved </h2>
 <ul>
   <% bookData.forEach(book => { %>
   <article class="saved_book">
   <img src="<%= book.image_url %>" />
   <h3> <%= book.title %> </h3>
   <p id="saved_author"> <%= book.author %> </p>
-  <a id="details" href="/books/:id">View Details</a>
+  <a id="details" href="/books/<%= book.id %>">View Details</a>
 
   </article> 
   <% }) %>
-  <p>Total Number Of Books Saved: <%= bookCount %></p>
+  
 
 </ul>

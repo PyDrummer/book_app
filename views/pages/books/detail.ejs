@@ -1,3 +1,27 @@
-<section id="bookDetails">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../../layout/head') %>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <%- include('../../layout/header') %>
+    </header>
 
-</section>
+    <h2>Saved Book Details</h2>
+    <ul>
+      <% savedDetails.forEach(book => { %>
+      <article class="new_book">
+      <img src="<%= book.image_url %>" />
+      <h3> <%= book.title %> </h3>
+      <p id="book_author"> <%= book.author %> </p>
+      <p id="detail_desc"> <%= book.description %> </p>
+      <p id="book_isbn"> ISBN: <%= book.isbn %> </p>
+      <p id="book_category"> Bookshelf: <%= book.bookshelf %> </p>
+      </article> 
+      <% }) %>
+    </ul>
+  </main>
+</body>
+</html>
