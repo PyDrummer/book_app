@@ -6,6 +6,7 @@ const cors = require('cors'); //cross origin resource sharing
 const superagent = require('superagent');
 const pg = require('pg'); // postgreSQL
 //const { response } = require('express');
+const methodOverride = require('method-override');
 
 require('dotenv').config(); // used to read a file/environment variables
 
@@ -16,33 +17,32 @@ const PORT = process.env.PORT || 3000; // reads the hidden file .env grabbing th
 const app = express();
 // use CORS
 app.use(cors());
-
-// This is for later! // creating our postgres client
-const client = new pg.Client(process.env.DATABASE_URL);
-
 // Starting our EJS stuff here
 app.use(express.static('public'));
 // Allows us to get the secure POST info.
 app.use(express.urlencoded({ extended: true }));
-
+// Bringing in the Method override dependancy
+app.use(methodOverride('_method'));
 // Set default view engine
 app.set('view engine', 'ejs');
+
+// This is for later! // creating our postgres client
+const client = new pg.Client(process.env.DATABASE_URL);
 
 // Routes
 
 app.get('/', (request, response) => {
   //console.log('/ route is working!');
-  const SQL = `SELECT * FROM book_info` ;
+  const SQL = `SELECT * FROM book_info`;
 
   client.query(SQL)
     .then(results => {
       // console.log(results.rows);
       let bookData = results.rows;
       let bookCount = results.rows.length;
-      console.log(bookCount);
+      //console.log(bookCount);
       response.status(200).render('pages/index', {bookData, bookCount});
     });
-
 });
 
 // Takes us to the details page
@@ -113,18 +113,27 @@ app.post('/searches', (req, res) => {
 });
 
 // Saving the book to our database
-app.get('/save/:isbn', (req, res) => {
-  console.log('req.body: ', req.query);
+app.post('/save/:isbn', (req, res) => {
+  //console.log('req.params.isbn: ', req.params);
+  console.log('req.body: ', req.body);
+  let title = req.body.title;
+  console.log('title is: ', title);
+  let author = req.body.author;
+  console.log(author);
+  let isbn = req.body.isbn;
+  let image_url = req.body.bookPic;
+  let bookshelf = req.body.bookshelf;
+  let desc = req.body.description;
 
-  // const SQL = `INSERT INTO book_info (author, title, isbn, image_url, bookshelf, description) VALUES $1, $2, $3, $4, $5, $6;`;
-  // const safeValues = [req.params.isbn];
+  const SQL = `INSERT INTO book_info (author, title, isbn, image_url, bookshelf, description) VALUES ($1, $2, $3, $4, $5, $6)`;
+  const safeValues = [author, title, isbn, image_url, bookshelf, desc];
 
-  // client.query(SQL, params)
-  //   .then(results => {
-  //     console.log('results.rows =', results.rows);
-  //     let savedDetails = results.rows;
-  //     res.status(200).render('pages/books/detail', {savedDetails});
-  //   });
+  client.query(SQL, safeValues)
+    .then(results => {
+      console.log('results.rows =', results.rows);
+      //let savedDetails = results.rows;
+      res.status(200).redirect('/');
+    });
 });
 
 
