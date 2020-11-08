@@ -13,10 +13,20 @@
     <ul>
       <% bookInfo.forEach(book => { %>
       <article class="new_book">
-      <img src="<%= book.bookPic %>" />
-      <h3> <%= book.bookTitle %> </h3>
-      <p id="book_author"> <%= book.bookAuthor %> </p>
-      <p id="book_desc"> <%= book.description %> </p>
+        <img src="<%= book.bookPic %>" />
+        <h3> <%= book.bookTitle %> </h3>
+        <p id="book_author"> <%= book.bookAuthor %> </p>
+        <p id="book_desc"> <%= book.description %> </p>
+        <p><%= book.isbn %> </p>
+        <form id="save" action="/save/<%= book.isbn %>" method="POST">
+          <input type="hidden" name="title" value="<%= book.bookTitle %>">
+          <input type="hidden" name="author" value="<%= book.bookAuthor %>">
+          <input type="hidden" name="description" value="<%= book.description %>">
+          <input type="hidden" name="isbn" value="<%= book.isbn %>">
+          <input type="hidden" name="bookshelf" value="<%= book.bookshelf %>">
+          <input type="hidden" name="bookPic" value="<%= book.bookPic %>">
+          <button type="submit">SAVE THIS BOOK!</button>
+        </form>
       </article> 
       <% }) %>
     </ul>

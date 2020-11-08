@@ -6,6 +6,7 @@ const cors = require('cors'); //cross origin resource sharing
 const superagent = require('superagent');
 const pg = require('pg'); // postgreSQL
 //const { response } = require('express');
+const methodOverride = require('method-override');
 
 require('dotenv').config(); // used to read a file/environment variables
 
@@ -16,38 +17,51 @@ const PORT = process.env.PORT || 3000; // reads the hidden file .env grabbing th
 const app = express();
 // use CORS
 app.use(cors());
-
-// This is for later! // creating our postgres client
-const client = new pg.Client(process.env.DATABASE_URL);
-
 // Starting our EJS stuff here
 app.use(express.static('public'));
 // Allows us to get the secure POST info.
 app.use(express.urlencoded({ extended: true }));
-
+// Bringing in the Method override dependancy
+app.use(methodOverride('_method'));
 // Set default view engine
 app.set('view engine', 'ejs');
+
+// This is for later! // creating our postgres client
+const client = new pg.Client(process.env.DATABASE_URL);
 
 // Routes
 
 app.get('/', (request, response) => {
   //console.log('/ route is working!');
-  const SQL = `SELECT * FROM book_info` ;
+  const SQL = `SELECT * FROM book_info`;
 
   client.query(SQL)
     .then(results => {
       // console.log(results.rows);
       let bookData = results.rows;
       let bookCount = results.rows.length;
-      console.log(bookCount);
+      //console.log(bookCount);
       response.status(200).render('pages/index', {bookData, bookCount});
     });
-
 });
 
+// Takes us to the details page
+app.get('/books/:id', (req, res) => {
+
+  const SQL = `SELECT * FROM book_info WHERE id=$1;`;
+  const params = [req.params.id];
+
+  client.query(SQL, params)
+    .then(results => {
+      console.log('results.rows =', results.rows);
+      let savedDetails = results.rows;
+      res.status(200).render('pages/books/detail', {savedDetails});
+    });
+});
+
+// Takes us to the search page
 app.get('/search', (request, response) => {
   response.status(200).render('pages/searches/new');
-
 });
 
 app.post('/searches', (req, res) => {
@@ -73,15 +87,23 @@ app.post('/searches', (req, res) => {
   superagent.get(URL)
     .then(data => {
       let bookInfo = data.body.items.map(book => {
+        // If there isnt an image, replace it with a placeholder
         let imageLink = '';
         if (book.volumeInfo.imageLinks) {
           imageLink = book.volumeInfo.imageLinks.thumbnail;
         } else {
           imageLink = 'https://i.imgur.com/J5LVHEL.jpg';
         }
-        return new Book(book, imageLink);
+        // If there isnt a category, replace it with "No Category Info"
+        let categories = '';
+        if (book.volumeInfo.categories) {
+          categories = book.volumeInfo.categories;
+        } else {
+          categories = 'No Category Info';
+        }
+        return new Book(book, categories, imageLink);
       });
-      console.log(bookInfo);
+      //console.log(bookInfo);
       res.status(200).render('pages/searches/show', { bookInfo });
     })
     .catch((error) => {
@@ -90,12 +112,38 @@ app.post('/searches', (req, res) => {
     });
 });
 
+// Saving the book to our database
+app.post('/save/:isbn', (req, res) => {
+  //console.log('req.params.isbn: ', req.params);
+  console.log('req.body: ', req.body);
+  let title = req.body.title;
+  console.log('title is: ', title);
+  let author = req.body.author;
+  console.log(author);
+  let isbn = req.body.isbn;
+  let image_url = req.body.bookPic;
+  let bookshelf = req.body.bookshelf;
+  let desc = req.body.description;
+
+  const SQL = `INSERT INTO book_info (author, title, isbn, image_url, bookshelf, description) VALUES ($1, $2, $3, $4, $5, $6)`;
+  const safeValues = [author, title, isbn, image_url, bookshelf, desc];
+
+  client.query(SQL, safeValues)
+    .then(results => {
+      console.log('results.rows =', results.rows);
+      //let savedDetails = results.rows;
+      res.status(200).redirect('/');
+    });
+});
+
+
 // Constructor!
-function Book(obj, pic) {
+function Book(obj, category, pic) {
   this.bookTitle = obj.volumeInfo.title;
   this.bookAuthor = obj.volumeInfo.authors[0];
   this.description = obj.volumeInfo.description;
-  this.isbn = obj.volumeInfo.industryIdentifiers.type + ' ' + obj.volumeInfo.industryIdentifiers.identifier;
+  this.isbn = obj.volumeInfo.industryIdentifiers[0].identifier;
+  this.bookshelf = category;
   this.bookPic = pic;
 }
 
