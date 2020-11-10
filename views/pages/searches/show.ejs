@@ -17,7 +17,7 @@
         <h3> <%= book.bookTitle %> </h3>
         <p id="book_author"> <%= book.bookAuthor %> </p>
         <p id="book_desc"> <%= book.description %> </p>
-        <p><%= book.isbn %> </p>
+        <!-- <p><%= book.isbn %> </p> -->
         <form id="save" action="/save/<%= book.isbn %>" method="POST">
           <input type="hidden" name="title" value="<%= book.bookTitle %>">
           <input type="hidden" name="author" value="<%= book.bookAuthor %>">
@@ -31,8 +31,8 @@
       <% }) %>
     </ul>
   </main>
+  <%- include('../../layout/footer') %>
 </body>
-<%- include('../../layout/footer') %>
 
 </html>
 

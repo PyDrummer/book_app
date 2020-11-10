@@ -42,8 +42,15 @@ app.post('/searches', searchHandler);
 app.post('/save/:isbn', bookSaveHandler);
 app.put('/edit/:id', bookEditHandler);
 
-function bookEditHandler (req, res) {
+function bookEditHandler(req, res) {
   console.log('req.params:', req.body);
+  let id = req.body.id;
+  let author = req.body.author;
+  let title = req.body.title;
+  let isbn = req.body.isbn;
+  let image_url = req.body.image_url;
+  let description = req.body.description;
+  let bookshelf = req.body.bookshelf;
   res.status(200).redirect('/');
 }
 //-----------------------------------------------------
@@ -57,7 +64,7 @@ function homeHandler(req, res) {
       let bookData = results.rows;
       let bookCount = results.rows.length;
       //console.log(bookCount);
-      res.status(200).render('pages/index', {bookData, bookCount});
+      res.status(200).render('pages/index', { bookData, bookCount });
     })
     .catch(err => {
       console.log('Error! ', err);
@@ -72,7 +79,7 @@ function detailsHandler(req, res) {
     .then(results => {
       console.log('results.rows =', results.rows);
       let savedDetails = results.rows;
-      res.status(200).render('pages/books/detail', {savedDetails});
+      res.status(200).render('pages/books/detail', { savedDetails, bookshelf });
     })
     .catch(err => {
       console.log('Error! ', err);
@@ -83,7 +90,7 @@ function searchRenderHandler(req, res) {
   res.status(200).render('pages/searches/new');
 }
 
-function searchHandler (req, res) {
+function searchHandler(req, res) {
   const search = req.body.search;
   const authorOrTitle = req.body.authorOrTitle;
   let urlAuthOrTitle = '';
@@ -104,21 +111,26 @@ function searchHandler (req, res) {
   superagent.get(URL)
     .then(data => {
       let bookInfo = data.body.items.map(book => {
+
+        //------------------------------------------------------
+        // Refactored for ternary operation in the constructor
+
         // If there isnt an image, replace it with a placeholder
-        let imageLink = '';
-        if (book.volumeInfo.imageLinks) {
-          imageLink = book.volumeInfo.imageLinks.thumbnail;
-        } else {
-          imageLink = 'https://i.imgur.com/J5LVHEL.jpg';
-        }
+        // let imageLink = '';
+        // if (book.volumeInfo.imageLinks) {
+        //   imageLink = book.volumeInfo.imageLinks.thumbnail;
+        // } else {
+        //   imageLink = 'https://i.imgur.com/J5LVHEL.jpg';
+        // }
         // If there isnt a category, replace it with "No Category Info"
-        let categories = '';
-        if (book.volumeInfo.categories) {
-          categories = book.volumeInfo.categories;
-        } else {
-          categories = 'No Category Info';
-        }
-        return new Book(book, categories, imageLink);
+        // let categories = '';
+        // if (book.volumeInfo.categories) {
+        //   categories = book.volumeInfo.categories;
+        // } else {
+        //   categories = 'No Category Info';
+        // }
+        //------------------------------------------------------
+        return new Book(book);
       });
       //console.log(bookInfo);
       res.status(200).render('pages/searches/show', { bookInfo });
@@ -129,7 +141,7 @@ function searchHandler (req, res) {
     });
 }
 
-function bookSaveHandler (req, res) {
+function bookSaveHandler(req, res) {
   //console.log('req.params.isbn: ', req.params);
   console.log('req.body: ', req.body);
   let title = req.body.title;
@@ -172,14 +184,71 @@ function bookSaveHandler (req, res) {
 
 //-----------------------------------------------------
 // Constructor!
-function Book(obj, category, pic) {
+function Book(obj) {
   this.bookTitle = obj.volumeInfo.title;
-  this.bookAuthor = obj.volumeInfo.authors[0];
+  this.bookAuthor = obj.volumeInfo.authors ? obj.volumeInfo.authors[0] : 'No Author Info';
   this.description = obj.volumeInfo.description;
   this.isbn = obj.volumeInfo.industryIdentifiers[0].identifier;
-  this.bookshelf = category;
-  this.bookPic = pic;
+  this.bookshelf = obj.volumeInfo.categories ? obj.volumeInfo.categories : 'N/A';
+  this.bookPic = obj.volumeInfo.imageLinks ? obj.volumeInfo.imageLinks.thumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
 }
+
+//-----------------------------------------------------
+// Bookshelf types:
+const bookshelf = [
+  'ANTIQUES & COLLECTIBLES',
+  'ARCHITECTURE',
+  'ART',
+  'BIBLES',
+  'BIOGRAPHY & AUTOBIOGRAPHY',
+  'BODY, MIND & SPIRIT',
+  'BUSINESS & ECONOMICS',
+  'COMICS & GRAPHIC NOVELS',
+  'COMPUTERS',
+  'COOKING',
+  'CRAFTS & HOBBIES',
+  'DESIGN',
+  'DRAMA',
+  'EDUCATION',
+  'FAMILY & RELATIONSHIPS',
+  'FICTION',
+  'FOREIGN LANGUAGE STUDY',
+  'GAMES & ACTIVITIES',
+  'GARDENING',
+  'HEALTH & FITNESS',
+  'HISTORY',
+  'HOUSE & HOME',
+  'HUMOR',
+  'JUVENILE FICTION',
+  'JUVENILE NONFICTION',
+  'LANGUAGE ARTS & DISCIPLINES',
+  'LAW',
+  'LITERARY COLLECTIONS',
+  'LITERARY CRITICISM',
+  'MATHEMATICS',
+  'MEDICAL',
+  'MUSIC',
+  'NATURE',
+  'PERFORMING ARTS',
+  'PETS',
+  'PHILOSOPHY',
+  'PHOTOGRAPHY',
+  'POETRY',
+  'POLITICAL SCIENCE',
+  'PSYCHOLOGY',
+  'REFERENCE',
+  'RELIGION',
+  'SCIENCE',
+  'SELF-HELP',
+  'SOCIAL SCIENCE',
+  'SPORTS & RECREATION',
+  'STUDY AIDS',
+  'TECHNOLOGY & ENGINEERING',
+  'TRANSPORTATION',
+  'TRAVEL',
+  'TRUE CRIME',
+  'YOUNG ADULT FICTION',
+  'YOUNG ADULT NONFICTION']
 
 //-----------------------------------------------------
 // client starting app

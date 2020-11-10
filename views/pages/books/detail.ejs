@@ -12,37 +12,43 @@
     <h2>Saved Book Details</h2>
     <ul>
       <% savedDetails.forEach(book => { %>
-      <article class="new_book">
-      <img src="<%= book.image_url %>" />
-      <h3> <%= book.title %> </h3>
-      <p id="book_author"> <%= book.author %> </p>
-      <p id="detail_desc"> <%= book.description %> </p>
-      <p id="book_isbn"> ISBN: <%= book.isbn %> </p>
-      <p id="book_category"> Bookshelf: <%= book.bookshelf %> </p>
+      <article class="new_book to_hide">
+      <img class="to_hide" src="<%= book.image_url %>" />
+      <h3 class="to_hide"> <%= book.title %> </h3>
+      <p class="to_hide" id="book_author"> <%= book.author %> </p>
+      <p class="to_hide" id="detail_desc"> <%= book.description %> </p>
+      <p class="to_hide" id="book_isbn"> ISBN: <%= book.isbn %> </p>
+      <p class="to_hide" id="book_category"> Bookshelf: <%= book.bookshelf %> </p>
       <!-- jquery toggle button -->
-      <button id="edit_button" type="submit">Update Details</button>
+      <button class="to_hide" id="edit_button" type="submit">Update Details</button>
       <!-- updating the info with a form -->
-      <form class = "hidden_form" id="hidden" action="/edit/<%= book.id %> ?_method=PUT" method="POST">
-        <input type ="hidden" name="id" value="<%= book.id %>">
-        <input type = "text" name="author" placeholder="Type in the Author's Name">
-        <input type = "text" name="title" placeholder="Type in the Title of the book">
-        <input type = "number" name="isbn" placeholder="Type in the ISBN">
-        <input type = "text" name="image_url" placeholder="Type in the Image URL">
-        <input type = "text" name="decription" placeholder="Type in the book's Description">
-        <label for="bookshelf">Bookshelf</label>
-        <select name="bookshelf">
-          <% savedDetails.forEach (book => { %>
-            <option value ="<%= book.bookshelf %>"> <%= book.bookshelf %> </option>
+      </article>
+      <article class="edit_book">
+      <form class="hidden_form" action="/edit/<%= book.id %> ?_method=PUT" method="POST">
+        <input id="edit_id" type ="hidden" name="id" value="<%= book.id %>">
+        <input id="edit_author" type="text" name="author" placeholder="Type in the Author's Name">
+        <br>
+        <input id="edit_title" type="text" name="title" placeholder="Type in the Title of the book">
+        <br>
+        <input id="edit_isbn" type="number" name="isbn" placeholder="ISBN #">
+        <br>
+        <input id="edit_imgurl" type="text" name="image_url" placeholder="Type in the Image URL">
+        <br>
+        <input id="edit_description" type="text" name="description" placeholder="Book Description">
+        <br>
+        <select id="edit_bookshelf" name="bookshelf">
+          <% bookshelf.forEach (book => { %>
+            <option value="<%= book.bookshelf %>"> <%= book %> </option>
             <% }) %>
         </select>
-        <button type="submit">Update the Book</button>
-
+        <br>
+        <button id="update_button" type="submit">Update the Book</button>
       </form>
       </article> 
       <% }) %>
     </ul>
-    <%- include('../../layout/footer') %>
   </main>
+  <%- include('../../layout/footer') %>
 </body>
 
 </html>

@@ -3,5 +3,6 @@
 console.log('Hello World');
 
 $('#edit_button').click(function(){
-  $('.hidden_form').toggle(1000);
+  $('.edit_book').toggle(1000);
+  $('.to_hide').toggle(1000);
 });
