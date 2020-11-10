@@ -19,6 +19,8 @@ APP IS FUNCTIONAL FOR API CALLS!
 
 11-5: Database is set up.
 
+11-9: jQuery and javascript are now linked up. Form hides and shows for the update.
+
 ## Credits and Collaborations
 Anthony Beaver and Deanna Johnson
 
@@ -45,3 +47,15 @@ Start time: 5:30PM
 Finish time: 6PM
 
 Actual time needed to complete: 30 minutes
+
+----------------------------------
+
+Number and name of feature: Lab 13, feature: Update and Delete
+
+Estimate of time needed to complete: 3 hours
+
+Start time: 6:30PM
+
+Finish time: 9PM
+
+Actual time needed to complete: 2 hours 30 minutes
