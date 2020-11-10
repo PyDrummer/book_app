@@ -40,7 +40,12 @@ app.get('/search', searchRenderHandler);
 app.post('/searches', searchHandler);
 // Saving the book to our database
 app.post('/save/:isbn', bookSaveHandler);
+app.put('/edit/:id', bookEditHandler);
 
+function bookEditHandler (req, res) {
+  console.log('req.params:', req.body);
+  res.status(200).redirect('/');
+}
 //-----------------------------------------------------
 // function handlers
 function homeHandler(req, res) {

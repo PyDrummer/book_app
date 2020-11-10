@@ -19,9 +19,30 @@
       <p id="detail_desc"> <%= book.description %> </p>
       <p id="book_isbn"> ISBN: <%= book.isbn %> </p>
       <p id="book_category"> Bookshelf: <%= book.bookshelf %> </p>
+      <!-- jquery toggle button -->
+      <button id="edit_button" type="submit">Update Details</button>
+      <!-- updating the info with a form -->
+      <form class = "hidden_form" id="hidden" action="/edit/<%= book.id %> ?_method=PUT" method="POST">
+        <input type ="hidden" name="id" value="<%= book.id %>">
+        <input type = "text" name="author" placeholder="Type in the Author's Name">
+        <input type = "text" name="title" placeholder="Type in the Title of the book">
+        <input type = "number" name="isbn" placeholder="Type in the ISBN">
+        <input type = "text" name="image_url" placeholder="Type in the Image URL">
+        <input type = "text" name="decription" placeholder="Type in the book's Description">
+        <label for="bookshelf">Bookshelf</label>
+        <select name="bookshelf">
+          <% savedDetails.forEach (book => { %>
+            <option value ="<%= book.bookshelf %>"> <%= book.bookshelf %> </option>
+            <% }) %>
+        </select>
+        <button type="submit">Update the Book</button>
+
+      </form>
       </article> 
       <% }) %>
     </ul>
+    <%- include('../../layout/footer') %>
   </main>
 </body>
+
 </html>
