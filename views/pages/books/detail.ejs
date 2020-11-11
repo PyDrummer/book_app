@@ -21,24 +21,31 @@
       <p class="to_hide" id="book_category"> Bookshelf: <%= book.bookshelf %> </p>
       <!-- jquery toggle button -->
       <button class="to_hide" id="edit_button" type="submit">Update Details</button>
+
+      <!-- deleting info with a form -->
+      <form action="/delete/<%= book.id %> ?_method=DELETE" method="POST">
+        <input type="hidden" value="<%= book.id %>">
+        <button class="to_hide delete_book" type="submit">Delete Book</button>
+      </form>
+
       <!-- updating the info with a form -->
       </article>
       <article class="edit_book">
       <form class="hidden_form" action="/edit/<%= book.id %> ?_method=PUT" method="POST">
-        <input id="edit_id" type ="hidden" name="id" value="<%= book.id %>">
-        <input id="edit_author" type="text" name="author" placeholder="Type in the Author's Name">
+        <input id="edit_id" type="hidden" name="id" value="<%= book.id %>">
+        <input id="edit_author" type="text" name="author" placeholder="<%= book.author %>">
         <br>
-        <input id="edit_title" type="text" name="title" placeholder="Type in the Title of the book">
+        <input id="edit_title" type="text" name="title" placeholder="<%= book.title %>">
         <br>
-        <input id="edit_isbn" type="number" name="isbn" placeholder="ISBN #">
+        <input id="edit_isbn" type="number" name="isbn" placeholder="<%= book.isbn %>">
         <br>
-        <input id="edit_imgurl" type="text" name="image_url" placeholder="Type in the Image URL">
+        <input id="edit_imgurl" type="text" name="image_url" placeholder="<%= book.image_url %>">
         <br>
-        <input id="edit_description" type="text" name="description" placeholder="Book Description">
+        <input id="edit_description" type="text" maxlength="10000" name="description" placeholder="<%= book.description %>">
         <br>
         <select id="edit_bookshelf" name="bookshelf">
           <% bookshelf.forEach (book => { %>
-            <option value="<%= book.bookshelf %>"> <%= book %> </option>
+            <option value="<%= book %>"> <%= book %> </option>
             <% }) %>
         </select>
         <br>
