@@ -40,19 +40,11 @@ app.get('/search', searchRenderHandler);
 app.post('/searches', searchHandler);
 // Saving the book to our database
 app.post('/save/:isbn', bookSaveHandler);
+// Book edits handler
 app.put('/edit/:id', bookEditHandler);
+// Deleting handler
+app.delete('/delete/:id', deleteHandler);
 
-function bookEditHandler(req, res) {
-  console.log('req.params:', req.body);
-  let id = req.body.id;
-  let author = req.body.author;
-  let title = req.body.title;
-  let isbn = req.body.isbn;
-  let image_url = req.body.image_url;
-  let description = req.body.description;
-  let bookshelf = req.body.bookshelf;
-  res.status(200).redirect('/');
-}
 //-----------------------------------------------------
 // function handlers
 function homeHandler(req, res) {
@@ -77,7 +69,7 @@ function detailsHandler(req, res) {
 
   client.query(SQL, params)
     .then(results => {
-      console.log('results.rows =', results.rows);
+      // console.log('results.rows =', results.rows);
       let savedDetails = results.rows;
       res.status(200).render('pages/books/detail', { savedDetails, bookshelf });
     })
@@ -142,12 +134,8 @@ function searchHandler(req, res) {
 }
 
 function bookSaveHandler(req, res) {
-  //console.log('req.params.isbn: ', req.params);
-  console.log('req.body: ', req.body);
   let title = req.body.title;
-  console.log('title is: ', title);
   let author = req.body.author;
-  console.log(author);
   let isbn = req.body.isbn;
   let image_url = req.body.bookPic;
   let bookshelf = req.body.bookshelf;
@@ -182,13 +170,48 @@ function bookSaveHandler(req, res) {
     });
 }
 
+function bookEditHandler(req, res) {
+  //console.log('req.params:', req.body);
+  let id = req.body.id;
+  let author = (req.body.author === '') ? 'No Author Given' : req.body.author;
+  let title = (req.body.title === '') ? 'No Title Given': req.body.title;
+  let isbn = (req.body.isbn === '') ? 'No ISBN Given' : req.body.isbn;
+  let image_url = (req.body.image_url === '') ? 'https://i.imgur.com/J5LVHEL.jpg' : req.body.image_url;
+  let description = (req.body.description === '') ? 'No Description Given' : req.body.description;
+  let bookshelf = req.body.bookshelf;
+
+  const SQL = `UPDATE book_info SET author=$2, title=$3, isbn=$4, image_url=$5, bookshelf=$6, description=$7 WHERE id=$1`;
+  const safeValue = [id, author, title, isbn, image_url, bookshelf, description];
+
+  client.query(SQL, safeValue)
+    .then(results => {
+      res.status(200).redirect('/');
+    })
+    .catch(err => {
+      console.log('Error! ', err);
+    });
+}
+
+function deleteHandler(req, res) {
+  const SQL = `DELETE FROM book_info WHERE id=$1`;
+  const saveValue = [req.params.id];
+
+  client.query(SQL, saveValue)
+    .then(results => {
+      res.status(200).redirect('/');
+    })
+    .catch(err => {
+      console.log('Error! ', err);
+    });
+}
+
 //-----------------------------------------------------
 // Constructor!
 function Book(obj) {
-  this.bookTitle = obj.volumeInfo.title;
-  this.bookAuthor = obj.volumeInfo.authors ? obj.volumeInfo.authors[0] : 'No Author Info';
-  this.description = obj.volumeInfo.description;
-  this.isbn = obj.volumeInfo.industryIdentifiers[0].identifier;
+  this.bookTitle = obj.volumeInfo.title || 'No Title Found';
+  this.bookAuthor = obj.volumeInfo.authors ? obj.volumeInfo.authors[0] : 'No Author Found';
+  this.description = obj.volumeInfo.description || 'No Description Found';
+  this.isbn = obj.volumeInfo.industryIdentifiers ? obj.volumeInfo.industryIdentifiers[0].identifier : 'ISBN Not Found';
   this.bookshelf = obj.volumeInfo.categories ? obj.volumeInfo.categories : 'N/A';
   this.bookPic = obj.volumeInfo.imageLinks ? obj.volumeInfo.imageLinks.thumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
 }
@@ -248,7 +271,7 @@ const bookshelf = [
   'TRAVEL',
   'TRUE CRIME',
   'YOUNG ADULT FICTION',
-  'YOUNG ADULT NONFICTION']
+  'YOUNG ADULT NONFICTION'];
 
 //-----------------------------------------------------
 // client starting app

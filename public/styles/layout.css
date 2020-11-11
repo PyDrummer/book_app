@@ -255,6 +255,10 @@ button {
   color: white;
 }
 
+.delete_book {
+  width: 210px;
+}
+
 /* hidden form styles here */
 
 .edit_book {
@@ -301,7 +305,9 @@ button {
   text-align: left;
   overflow: auto;
   margin-bottom: 20px;
+  word-break: break-word;
 }
+
 
 #edit_bookshelf {
   height: 60px;
@@ -326,16 +332,16 @@ button {
 }
 
 #detail_desc {
-  background-color: #CAF0F8;
+  background-color: white;
+  border: solid 2px black;
+  border-radius: 3px;
   margin-left: 100px;
   margin-right: 100px;
   margin-top: 20px;
   font-size: 25px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
   height: 140px;
   overflow: scroll;
-  
 }
 
 #book_isbn {

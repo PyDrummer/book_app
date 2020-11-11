@@ -21,6 +21,8 @@ APP IS FUNCTIONAL FOR API CALLS!
 
 11-9: jQuery and javascript are now linked up. Form hides and shows for the update.
 
+11-10: Update and delete buttons are now working. Some code refactored, and css styles applied!
+
 ## Credits and Collaborations
 Anthony Beaver and Deanna Johnson
 
@@ -58,4 +60,16 @@ Start time: 6:30PM
 
 Finish time: 9PM
 
-Actual time needed to complete: 2 hours 30 minutes
+Actual time needed to complete: 2 hours 30 minutes (not finished)
+
+----------------------------------
+
+Number and name of feature: Lab 13, feature: Update and Delete (finished)
+
+Estimate of time needed to complete: 2 hours
+
+Start time: 8:45PM
+
+Finish time: 9:20PM
+
+Actual time needed to complete: 35 minutes
